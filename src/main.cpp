@@ -1,4 +1,5 @@
 #include "SDL2/SDL.h"
+#include "snake.h"
 #include <iostream>
 
 const int SCREEN_WIDTH = 640;
@@ -6,6 +7,8 @@ const int SCREEN_HEIGHT = 480;
 
 bool init();
 void close();
+void food();
+
 
 SDL_Window* Window = nullptr;
 SDL_Renderer* renderer = nullptr;
@@ -53,6 +56,13 @@ void close(){
 
 }
 
+void food(){
+	SDL_Rect food = {100, 40, 8, 8};
+	SDL_SetRenderDrawColor ( renderer, 255, 255, 255, 255 );
+	SDL_RenderFillRect ( renderer, &food );
+
+}
+
 
 
 int main(int argc, char *argv[]){
@@ -80,10 +90,9 @@ int main(int argc, char *argv[]){
 			SDL_SetRenderDrawColor ( renderer, 255, 255, 255, 255 );
 			SDL_RenderDrawRect ( renderer, &border );
 
-			SDL_Rect snake = {50, 420, 20, 15};
-			SDL_SetRenderDrawColor ( renderer, 255, 255, 255, 255 );
-			SDL_RenderFillRect ( renderer, &snake );
-
+			snake s;
+			s.snake_head( renderer );
+			food();
 
 			SDL_RenderPresent ( renderer );
 		}
