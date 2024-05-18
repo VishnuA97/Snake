@@ -1,13 +1,15 @@
 #include "SDL2/SDL.h"
 #include "snake.h"
+#include "food.h"
 #include <iostream>
+#include <cstdlib>
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 bool init();
 void close();
-void food();
+
 
 
 SDL_Window* Window = nullptr;
@@ -37,13 +39,14 @@ bool init(){
 			}
 			else{
 				SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255);
+				SDL_RenderClear( renderer );
+				
 			}
 		}
 
 	}
     return success;
 }
-
 
 void close(){
 
@@ -56,12 +59,7 @@ void close(){
 
 }
 
-void food(){
-	SDL_Rect food = {100, 40, 8, 8};
-	SDL_SetRenderDrawColor ( renderer, 255, 255, 255, 255 );
-	SDL_RenderFillRect ( renderer, &food );
 
-}
 
 
 
@@ -82,18 +80,20 @@ int main(int argc, char *argv[]){
 			while ( SDL_PollEvent(&e ) ) {
 
 				if( e.type == SDL_QUIT ){running = false;}
+				
 			}
+
 			SDL_SetRenderDrawColor ( renderer, 0, 0, 0, 255);
 			SDL_RenderClear ( renderer );
 
-			SDL_Rect border = {15, 15, 400, 445};
 			SDL_SetRenderDrawColor ( renderer, 255, 255, 255, 255 );
+
+			SDL_Rect border = {15, 15, 400, 445};
 			SDL_RenderDrawRect ( renderer, &border );
 
 			snake s;
-			s.snake_head( renderer );
-			food();
-
+			s.snake_head(renderer);
+			render_food( renderer, 30, 380 );
 			SDL_RenderPresent ( renderer );
 		}
     }
